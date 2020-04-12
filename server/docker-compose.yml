@@ -16,6 +16,8 @@ services:
         environment:
             POSTGRES_DB: ${DB}
             POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - postgres:/data/postgres
 
     pgadmin:
         image: dpage/pgadmin4
@@ -24,5 +26,11 @@ services:
         environment:
             PGADMIN_DEFAULT_EMAIL: "bd_proj@bd.com"
             PGADMIN_DEFAULT_PASSWORD: "pgadmin"
+        volumes:
+            - pgadmin:/root/pgadmin
         ports:
             - "${PGADMIN_PORT}:80"
+
+volumes:
+    postgres:
+    pgadmin:
