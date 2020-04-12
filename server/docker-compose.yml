@@ -1,19 +1,28 @@
 version: '3'
 services:
-  api_server:
-    build: .
-    ports:
-      - "${PORT}:${PORT}"
-    volumes:
-      - .:/usr/src/app
-    depends_on:
-      - postgres_db
-    environment:
-      DB_HOST: postgres_db
+    api_server:
+        build: .
+        ports:
+            - "${PORT}:${PORT}"
+        volumes:
+            - .:/usr/src/app
+        depends_on:
+            - postgres_db
+        environment:
+            DB_HOST: postgres_db
 
-  postgres_db:
-    image: postgres
-    environment:
-      POSTGRES_DB: ${DB}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    postgres_db:
+        image: postgres
+        environment:
+            POSTGRES_DB: ${DB}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
 
+    pgadmin:
+        image: dpage/pgadmin4
+        depends_on: 
+            - postgres_db
+        environment:
+            PGADMIN_DEFAULT_EMAIL: "bd_proj@bd.com"
+            PGADMIN_DEFAULT_PASSWORD: "pgadmin"
+        ports:
+            - "${PGADMIN_PORT}:80"
