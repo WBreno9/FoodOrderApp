@@ -8,140 +8,140 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema food_order
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema food_order
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS "food_order" DEFAULT CHARACTER SET utf8 ;
+USE "food_order" ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`usuario`
+-- Table "food_order"."usuario"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`usuario` (
-  `idusuario` INT NOT NULL,
-  `namo` VARCHAR(64) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(32) NOT NULL,
-  PRIMARY KEY (`idusuario`));
+CREATE TABLE IF NOT EXISTS "food_order"."usuario" (
+  "idusuario" INT NOT NULL,
+  "namo" VARCHAR(64) NOT NULL,
+  "email" VARCHAR(255) NOT NULL,
+  "password" VARCHAR(32) NOT NULL,
+  PRIMARY KEY ("idusuario"));
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`categoria`
+-- Table "food_order"."categoria"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`categoria` (
-  `idcategoria` INT NOT NULL,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` TEXT NOT NULL,
-  PRIMARY KEY (`idcategoria`))
+CREATE TABLE IF NOT EXISTS "food_order"."categoria" (
+  "idcategoria" INT NOT NULL,
+  "nome" VARCHAR(45) NOT NULL,
+  "descricao" TEXT NOT NULL,
+  PRIMARY KEY ("idcategoria"))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`restaurante`
+-- Table "food_order"."restaurante"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`restaurante` (
-  `idrestaurante` INT NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(32) NOT NULL,
-  `disponivel` TINYINT NOT NULL,
-  `categoria_idcategoria` INT NOT NULL,
-  PRIMARY KEY (`idrestaurante`),
-  INDEX `fk_restaurante_categoria1_idx` (`categoria_idcategoria` ASC) VISIBLE,
-  CONSTRAINT `fk_restaurante_categoria1`
-    FOREIGN KEY (`categoria_idcategoria`)
-    REFERENCES `mydb`.`categoria` (`idcategoria`)
+CREATE TABLE IF NOT EXISTS "food_order"."restaurante" (
+  "idrestaurante" INT NOT NULL,
+  "email" VARCHAR(255) NOT NULL,
+  "name" VARCHAR(45) NOT NULL,
+  "password" VARCHAR(32) NOT NULL,
+  "disponivel" TINYINT NOT NULL,
+  "categoria_idcategoria" INT NOT NULL,
+  PRIMARY KEY ("idrestaurante"),
+  INDEX "fk_restaurante_categoria1_idx" ("categoria_idcategoria" ASC) VISIBLE,
+  CONSTRAINT "fk_restaurante_categoria1"
+    FOREIGN KEY ("categoria_idcategoria")
+    REFERENCES "food_order"."categoria" ("idcategoria")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`preco`
+-- Table "food_order"."preco"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`preco` (
-  `idpreco` INT NOT NULL,
-  `valor` FLOAT NOT NULL,
-  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idpreco`),
-  UNIQUE INDEX `update_time_UNIQUE` (`create_time` ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS "food_order"."preco" (
+  "idpreco" INT NOT NULL,
+  "valor" FLOAT NOT NULL,
+  "create_time" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("idpreco"),
+  UNIQUE INDEX "update_time_UNIQUE" ("create_time" ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`prato`
+-- Table "food_order"."prato"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`prato` (
-  `idprato` INT NOT NULL,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` TEXT NOT NULL,
-  `disponivel` TINYINT NOT NULL,
-  `restaurante_idrestaurante` BIGINT NOT NULL,
-  `preco_idpreco` BIGINT NOT NULL,
-  PRIMARY KEY (`idprato`),
-  INDEX `fk_prato_restaurante_idx` (`restaurante_idrestaurante` ASC) VISIBLE,
-  INDEX `fk_prato_preco1_idx` (`preco_idpreco` ASC) VISIBLE,
-  CONSTRAINT `fk_prato_restaurante`
-    FOREIGN KEY (`restaurante_idrestaurante`)
-    REFERENCES `mydb`.`restaurante` (`idrestaurante`)
+CREATE TABLE IF NOT EXISTS "food_order"."prato" (
+  "idprato" INT NOT NULL,
+  "nome" VARCHAR(45) NOT NULL,
+  "descricao" TEXT NOT NULL,
+  "disponivel" TINYINT NOT NULL,
+  "restaurante_idrestaurante" BIGINT NOT NULL,
+  "preco_idpreco" BIGINT NOT NULL,
+  PRIMARY KEY ("idprato"),
+  INDEX "fk_prato_restaurante_idx" ("restaurante_idrestaurante" ASC) VISIBLE,
+  INDEX "fk_prato_preco1_idx" ("preco_idpreco" ASC) VISIBLE,
+  CONSTRAINT "fk_prato_restaurante"
+    FOREIGN KEY ("restaurante_idrestaurante")
+    REFERENCES "food_order"."restaurante" ("idrestaurante")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_prato_preco1`
-    FOREIGN KEY (`preco_idpreco`)
-    REFERENCES `mydb`.`preco` (`idpreco`)
+  CONSTRAINT "fk_prato_preco1"
+    FOREIGN KEY ("preco_idpreco")
+    REFERENCES "food_order"."preco" ("idpreco")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`adicional`
+-- Table "food_order"."adicional"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`adicional` (
-  `idadicional` INT NOT NULL,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` TEXT NOT NULL,
-  `preco_idpreco` INT NOT NULL,
-  PRIMARY KEY (`idadicional`),
-  INDEX `fk_adicional_preco1_idx` (`preco_idpreco` ASC) VISIBLE,
-  CONSTRAINT `fk_adicional_preco1`
-    FOREIGN KEY (`preco_idpreco`)
-    REFERENCES `mydb`.`preco` (`idpreco`)
+CREATE TABLE IF NOT EXISTS "food_order"."adicional" (
+  "idadicional" INT NOT NULL,
+  "nome" VARCHAR(45) NOT NULL,
+  "descricao" TEXT NOT NULL,
+  "preco_idpreco" INT NOT NULL,
+  PRIMARY KEY ("idadicional"),
+  INDEX "fk_adicional_preco1_idx" ("preco_idpreco" ASC) VISIBLE,
+  CONSTRAINT "fk_adicional_preco1"
+    FOREIGN KEY ("preco_idpreco")
+    REFERENCES "food_order"."preco" ("idpreco")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`pedido`
+-- Table "food_order"."pedido"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`pedido` (
-  `idpedido` INT NOT NULL,
-  `quantidate` INT NOT NULL,
-  `endereco` VARCHAR(45) NOT NULL,
-  `adicional_idadicional` INT NOT NULL,
-  `prato_idprato` INT NOT NULL,
-  `usuario_idusuario` INT NOT NULL,
-  PRIMARY KEY (`idpedido`),
-  INDEX `fk_pedido_adicional1_idx` (`adicional_idadicional` ASC) VISIBLE,
-  INDEX `fk_pedido_prato1_idx` (`prato_idprato` ASC) VISIBLE,
-  INDEX `fk_pedido_usuario1_idx` (`usuario_idusuario` ASC) VISIBLE,
-  CONSTRAINT `fk_pedido_adicional1`
-    FOREIGN KEY (`adicional_idadicional`)
-    REFERENCES `mydb`.`adicional` (`idadicional`)
+CREATE TABLE IF NOT EXISTS "food_order"."pedido" (
+  "idpedido" INT NOT NULL,
+  "quantidate" INT NOT NULL,
+  "endereco" VARCHAR(45) NOT NULL,
+  "adicional_idadicional" INT NOT NULL,
+  "prato_idprato" INT NOT NULL,
+  "usuario_idusuario" INT NOT NULL,
+  PRIMARY KEY ("idpedido"),
+  INDEX "fk_pedido_adicional1_idx" ("adicional_idadicional" ASC) VISIBLE,
+  INDEX "fk_pedido_prato1_idx" ("prato_idprato" ASC) VISIBLE,
+  INDEX "fk_pedido_usuario1_idx" ("usuario_idusuario" ASC) VISIBLE,
+  CONSTRAINT "fk_pedido_adicional1"
+    FOREIGN KEY ("adicional_idadicional")
+    REFERENCES "food_order"."adicional" ("idadicional")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pedido_prato1`
-    FOREIGN KEY (`prato_idprato`)
-    REFERENCES `mydb`.`prato` (`idprato`)
+  CONSTRAINT "fk_pedido_prato1"
+    FOREIGN KEY ("prato_idprato")
+    REFERENCES "food_order"."prato" ("idprato")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pedido_usuario1`
-    FOREIGN KEY (`usuario_idusuario`)
-    REFERENCES `mydb`.`usuario` (`idusuario`)
+  CONSTRAINT "fk_pedido_usuario1"
+    FOREIGN KEY ("usuario_idusuario")
+    REFERENCES "food_order"."usuario" ("idusuario")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
