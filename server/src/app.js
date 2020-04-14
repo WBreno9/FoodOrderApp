@@ -14,13 +14,6 @@ import { getAuthToken } from './auth.js';
 
 app.use(getAuthToken);
 
-import models from './models';
-
-app.use('/', (req, _, next) => {
-    req.models = models;
-    return next();
-});
-
 import { userRouter } from './routes';
 
 app.use('/user', userRouter);

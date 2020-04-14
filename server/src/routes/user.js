@@ -1,6 +1,6 @@
 import express from 'express';
-
 import { genAuthToken, requireAuth } from '../auth.js';
+import userModel from '../models/user.js';
 
 let userRouter = express.Router();
 
@@ -8,7 +8,7 @@ userRouter.post("/login", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const rs = await req.models.userModel.getUserByEmail(email);
+    const rs = await userModel.getUserByEmail(email);
 
     if (rs != undefined && rs.password === password) {
         res.send(genAuthToken(rs));
@@ -18,7 +18,7 @@ userRouter.post("/login", async (req, res) => {
 });
 
 userRouter.post("/", async (req, res) => {
-    const rs = await req.models.userModel.createUser(req.body);
+    const rs = await userModel.createUser(req.body);
 
     res.send(rs);
 });
