@@ -5,18 +5,34 @@ async function createUser(userData) {
 
     try {
         const res = await client
-            .query(`INSERT INTO \"food_order\".\"usuario\" 
+            .query(`INSERT INTO "food_order"."usuario" 
                     VALUES(DEFAULT, $1, $2, $3)
                     RETURNING *;`,
                 [userData.nome, userData.email, userData.password]); 
 
-        console.log(res.rows[0]);
+        return res.rows[0];
+    } finally {
+        client.release();
+    }
+}
+
+async function getUserByEmail(email) {
+    const client = await pool.connect();
+
+    try {
+        const res = await client
+            .query(`SELECT * FROM "food_order"."usuario"
+                    WHERE "usuario"."email" = $1`,
+                [email]);
+
+        return res.rows[0];
     } finally {
         client.release();
     }
 }
 
 export default {
-    createUser
+    createUser,
+    getUserByEmail
 };
 

@@ -12,13 +12,14 @@ app.use(express.urlencoded({ extended: true }));
 
 import models from './models';
 
-app.get('/', async (req, res) => {
-    await models.userModel.createUser({
-        nome: "jeffa",
-        email: "jeff123@bongo.com",
-        password: "j3ffi"
-    });
+app.use('/', (req, _, next) => {
+    req.models = models;
+    return next();
 });
+
+import { userRouter } from './routes';
+
+app.use('/user', userRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening at port ${process.env.PORT}`);
