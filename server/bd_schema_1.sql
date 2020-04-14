@@ -6,18 +6,24 @@ CREATE SCHEMA IF NOT EXISTS "food_order";
 -- -----------------------------------------------------
 -- Table "food_order"."usuario"
 -- -----------------------------------------------------
+
+-- CREATE SEQUENCE "idusuario_seq";
+
 CREATE TABLE IF NOT EXISTS "food_order"."usuario" (
-  "idusuario" INT NOT NULL,
+  "idusuario" SERIAL NOT NULL,
   "nome" VARCHAR(64) NOT NULL,
   "email" VARCHAR(255) NOT NULL,
   "password" VARCHAR(32) NOT NULL,
   PRIMARY KEY ("idusuario"));
 
+-- ALTER SEQUENCE "idusuario_seq" 
+-- OWNED BY "food_order"."usuario"."idusuario";
+
 -- -----------------------------------------------------
 -- Table "food_order"."categoria"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "food_order"."categoria" (
-  "idcategoria" INT NOT NULL,
+  "idcategoria" SERIAL NOT NULL,
   "nome" VARCHAR(45) NOT NULL,
   "descricao" TEXT NOT NULL,
   PRIMARY KEY ("idcategoria"));
@@ -27,7 +33,7 @@ CREATE TABLE IF NOT EXISTS "food_order"."categoria" (
 -- Table "food_order"."restaurante"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "food_order"."restaurante" (
-  "idrestaurante" INT NOT NULL,
+  "idrestaurante" SERIAL NOT NULL,
   "email" VARCHAR(255) NOT NULL,
   "nome" VARCHAR(45) NOT NULL,
   "password" VARCHAR(32) NOT NULL,
@@ -47,7 +53,7 @@ CREATE INDEX IF NOT EXISTS "fk_restaurante_categoria1_idx"
 -- Table "food_order"."preco"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "food_order"."preco" (
-  "idpreco" INT NOT NULL,
+  "idpreco" SERIAL NOT NULL,
   "valor" FLOAT NOT NULL,
   "create_time" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY ("idpreco"));
@@ -59,7 +65,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "update_time_UNIQUE"
 -- Table "food_order"."prato"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "food_order"."prato" (
-  "idprato" INT NOT NULL,
+  "idprato" SERIAL NOT NULL,
   "nome" VARCHAR(45) NOT NULL,
   "descricao" TEXT NOT NULL,
   "disponivel" BOOLEAN NOT NULL,
@@ -86,7 +92,7 @@ CREATE INDEX IF NOT EXISTS "fk_prato_preco1_idx"
 -- Table "food_order"."adicional"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "food_order"."adicional" (
-  "idadicional" INT NOT NULL,
+  "idadicional" SERIAL NOT NULL,
   "nome" VARCHAR(45) NOT NULL,
   "descricao" TEXT NOT NULL,
   "preco_idpreco" INT NOT NULL,
@@ -104,7 +110,7 @@ CREATE INDEX IF NOT EXISTS "fk_adicional_preco1_idx"
 -- Table "food_order"."pedido"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "food_order"."pedido" (
-  "idpedido" INT NOT NULL,
+  "idpedido" SERIAL NOT NULL,
   "quantidate" INT NOT NULL,
   "endereco" VARCHAR(45) NOT NULL,
   "adicional_idadicional" INT NOT NULL,
