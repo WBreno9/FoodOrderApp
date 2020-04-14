@@ -10,6 +10,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+import { getAuthToken } from './auth.js';
+
+app.use(getAuthToken);
+
 import models from './models';
 
 app.use('/', (req, _, next) => {
