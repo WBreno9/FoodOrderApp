@@ -1,4 +1,3 @@
-import express from 'express';
 import jwt from 'jsonwebtoken';
 
 const SECRET = "shhhhhh";
@@ -29,7 +28,7 @@ function requireAuth(req, res, next) {
     }
 }
 
-function getAuthToken(req, res, next) {
+function getAuthToken(req, _, next) {
     if (req.headers.authorization) {
         const token_string = 
             req.headers.authorization.split(' ')[1];
