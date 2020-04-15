@@ -1,10 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-const SECRET = "shhhhhh";
-
 function genAuthToken(userData) {
     try {
-        return jwt.sign(userData, SECRET);
+        return jwt.sign(userData, process.env.JWT_SECRET);
     } catch (e) {
         console.log(e);
         return null
@@ -13,7 +11,7 @@ function genAuthToken(userData) {
 
 function verifyAuthToken(token) {
     try {
-        return jwt.verify(token, SECRET);
+        return jwt.verify(token, process.env.JWT_SECRET);
     } catch (e) {
         console.log(e.stack);
         return null;
