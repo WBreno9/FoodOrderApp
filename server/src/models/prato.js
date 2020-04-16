@@ -73,12 +73,14 @@ async function updatePrato(pratoUpdate) {
   const client = await pool.connect();
 
   try {
+    const { preco_idpreco } = await precoModel.createPreco(pratoUpdate.valor);
+
     const res = await client.query(
       `UPDATE "food_order"."prato"
-       SET "disponivel" = $2
+       SET "disponivel" = $2, "preco_idpreco" = $3
        WHERE "idprato" = $1
        RETURNING *;`,
-      [pratoUpdate.idprato, pratoUpdate.disponivel]
+      [pratoUpdate.idprato, pratoUpdate.disponivel, preco_idpreco]
     );
 
     return res.rows[0];

@@ -63,9 +63,9 @@ restauranteRouter.post(
       return res.status(401).end();
     }
 
-    const { disponivel } = await pratoModel.updatePrato(pratoUpdate);
+    const { disponivel, preco_idpreco } = await pratoModel.updatePrato(pratoUpdate);
 
-    return res.send({ disponivel });
+    return res.send({ disponivel, preco_idpreco });
   }
 );
 
