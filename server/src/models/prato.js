@@ -11,7 +11,7 @@ async function createPrato(prato, idrestaurante) {
       `INSERT INTO "food_order"."prato"
        VALUES(DEFAULT, $1, $2, FALSE, $3, $4)
        RETURNING *;`,
-        [prato.nome, prato.descricao, idrestaurante, idpreco]
+      [prato.nome, prato.descricao, idrestaurante, idpreco]
     );
 
     return res.rows[0];
@@ -24,7 +24,12 @@ async function getPratoByNomeRestaurante(nome, idrestaurante) {
   const client = await pool.connect();
 
   try {
-    const res = await client.query(``, [nome, idrestaurante]);
+    const res = await client.query(
+      `SELECT * FROM "food_order"."prato"
+       WHERE "prato"."nome" = $1
+       AND "prato"."idrestaurante" = $2;`,
+      [nome, idrestaurante]
+    );
 
     return res.rows[0];
   } finally {

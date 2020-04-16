@@ -2,6 +2,7 @@ import express from "express";
 import { genAuthToken, requireAuth } from "../auth";
 import restauranteModel from "../models/restaurante";
 import pratoModel from "../models/prato";
+import adicionalModel from "../models/adicional";
 
 let restauranteRouter = express.Router();
 
@@ -37,6 +38,16 @@ restauranteRouter.post(
     const idrestaurante = req.decoded_token.idrestaurante;
 
     res.send(await pratoModel.createPrato(prato, idrestaurante));
+  }
+);
+
+restauranteRouter.post(
+  "/adicional",
+  requireAuth("restaurante"),
+  async (req, res) => {
+    const adicional = req.body;
+
+    res.send(await adicionalModel.createAdicional(adicional));
   }
 );
 
