@@ -83,15 +83,14 @@ restauranteRouter.post(
   "/update",
   requireAuth("restaurante"),
   async (req, res) => {
-    let restaurante = {};
-
-    restaurante.disponivel = req.body.disponivel;
+    let restaurante = req.body;
     restaurante.idrestaurante = req.decoded_token.idrestaurante;
 
-    const { disponivel } = await restauranteModel.updateRestaurante(
-      restaurante
-    );
-    res.send({ disponivel });
+    const {
+      disponivel,
+      categoria_idcategoria,
+    } = await restauranteModel.updateRestaurante(restaurante);
+    res.send({ disponivel, categoria_idcategoria });
   }
 );
 

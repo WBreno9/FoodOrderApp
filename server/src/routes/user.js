@@ -34,4 +34,9 @@ userRouter.post("/pedido", requireAuth('user'), async (req, res) => {
   res.send(await pedidoModel.createPedido(req.body, idusuario));
 });
 
+userRouter.post("/history", requireAuth('user'), async (req, res) => {
+  const { idusuario } = req.decoded_token;
+  res.send(await pedidoModel.getPedidoByUsuario(idusuario));
+});
+
 export default userRouter;

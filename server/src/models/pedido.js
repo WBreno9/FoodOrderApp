@@ -23,6 +23,23 @@ async function createPedido(pedido, idusuario) {
   }
 }
 
+async function getPedidoByUsuario(idusuario) {
+  const client = await pool.connect();
+
+  try {
+    const res = await client.query(
+      `SELECT * FROM "food_order"."pedido"
+       WHERE "usuario"."idusuario" = $1
+       RETURNING *;`,
+      [idusuario]);
+
+    return res.rows[0];
+  } finally {
+    client.release();
+  }
+}
+
 export default {
   createPedido,
+  getPedidoByUsuario,
 };

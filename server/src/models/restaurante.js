@@ -51,10 +51,14 @@ async function updateRestaurante(restaurante) {
   try {
     const res = await client.query(
       `UPDATE "food_order"."restaurante"
-       SET "disponivel" = $2
+       SET "disponivel" = $2, "categoria_idcategoria" = $3
        WHERE "idrestaurante" = $1
        RETURNING *;`,
-      [restaurante.idrestaurante, restaurante.disponivel]
+      [
+        restaurante.idrestaurante,
+        restaurante.disponivel,
+        restaurante.categoria_idcategoria,
+      ]
     );
 
     return res.rows[0];
