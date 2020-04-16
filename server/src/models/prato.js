@@ -20,6 +20,22 @@ async function createPrato(prato, idrestaurante) {
   }
 }
 
+async function getPrato(idprato) {
+  const client = await pool.connect();
+
+  try {
+    const res = await client.query(
+      `SELECT * FROM "food_order"."prato"
+       WHERE "prato"."idprato" = $1;`,
+      [idprato]
+    );
+
+    return res.rows[0];
+  } finally {
+    client.release();
+  }
+}
+
 async function getPratoByNomeRestaurante(nome, idrestaurante) {
   const client = await pool.connect();
 
@@ -53,8 +69,28 @@ async function getPratosByRestaurante(idrestaurante) {
   }
 }
 
+async function updatePrato(pratoUpdate) {
+  const client = await pool.connect();
+
+  try {
+    const res = await client.query(
+      `UPDATE "food_order"."prato"
+       SET "disponivel" = $2
+       WHERE "idprato" = $1
+       RETURNING *;`,
+      [pratoUpdate.idprato, pratoUpdate.disponivel]
+    );
+
+    return res.rows[0];
+  } finally {
+    client.release();
+  }
+}
+
 export default {
   createPrato,
+  getPrato,
   getPratoByNomeRestaurante,
   getPratosByRestaurante,
+  updatePrato,
 };

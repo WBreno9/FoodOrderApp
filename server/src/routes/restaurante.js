@@ -50,6 +50,26 @@ restauranteRouter.post(
 );
 
 restauranteRouter.post(
+  "/prato/update",
+  requireAuth("restaurante"),
+  async (req, res) => {
+    const pratoUpdate = req.body;
+
+    const { restaurante_idrestaurante } = await pratoModel.getPrato(
+      pratoUpdate.idprato
+    );
+
+    if (restaurante_idrestaurante !== req.decoded_token.idrestaurante) {
+      return res.status(401).end();
+    }
+
+    const { disponivel } = await pratoModel.updatePrato(pratoUpdate);
+
+    return res.send({ disponivel });
+  }
+);
+
+restauranteRouter.post(
   "/adicional",
   requireAuth("restaurante"),
   async (req, res) => {
