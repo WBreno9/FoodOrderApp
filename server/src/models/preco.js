@@ -1,13 +1,15 @@
 import pool from "./db";
 
-async function createPreco(preco) {
+async function createPreco(valor) {
+
   const client = await pool.connect();
 
   try {
     const res = await client.query(
       `INSERT INTO "food_order"."preco"
-       VALUES(DEFAULT, $1, DEFAULT);`,
-      [preco.valor]
+       VALUES(DEFAULT, $1, DEFAULT)
+       RETURNING *;`,
+      [valor]
     );
 
     return res.rows[0];
