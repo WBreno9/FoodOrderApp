@@ -1,6 +1,6 @@
 import express from "express";
-import { genAuthToken, requireAuth } from "../auth.js";
-import restauranteModel from "../models/restaurante.js";
+import { genAuthToken, requireAuth } from "../auth";
+import restauranteModel from "../models/restaurante";
 
 let restauranteRouter = express.Router();
 
@@ -18,14 +18,16 @@ restauranteRouter.post("/login", async (req, res) => {
   }
 });
 
-restauranteRouter.post("/", async (req, res) => {
+restauranteRouter.post('/', async (req, res) => {
   const rs = await restauranteModel.createRestaurante(req.body);
 
   res.send(rs);
 });
 
-restauranteRouter.get("/me", requireAuth('restaurante'), async (req, res) => {
+restauranteRouter.get('/me', requireAuth('restaurante'), async (req, res) => {
   res.send(req.decoded_token);
 });
+
+restauranteRouter.post(
 
 export default restauranteRouter;

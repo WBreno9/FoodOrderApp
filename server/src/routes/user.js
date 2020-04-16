@@ -1,6 +1,6 @@
 import express from "express";
-import { genAuthToken, requireAuth } from "../auth.js";
-import userModel from "../models/user.js";
+import { genAuthToken, requireAuth } from "../auth";
+import userModel from "../models/user";
 
 let userRouter = express.Router();
 
@@ -24,7 +24,7 @@ userRouter.post("/", async (req, res) => {
   res.send(rs);
 });
 
-userRouter.get("/me", requireAuth(null), async (req, res) => {
+userRouter.get("/me", requireAuth('user'), async (req, res) => {
   res.send(req.decoded_token);
 });
 

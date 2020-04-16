@@ -1,4 +1,4 @@
-import pool from "./db.js";
+import pool from "./db";
 
 async function createRestaurante(restauranteData) {
   const client = await pool.connect();

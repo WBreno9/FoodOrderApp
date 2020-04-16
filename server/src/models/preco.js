@@ -1,14 +1,13 @@
 import pool from "./db";
 
-async function createUser(userData) {
+async function createPreco(preco) {
   const client = await pool.connect();
 
   try {
     const res = await client.query(
-      `INSERT INTO "food_order"."usuario" 
-       VALUES(DEFAULT, $1, $2, $3)
-       RETURNING *;`,
-      [userData.nome, userData.email, userData.password]
+      `INSERT INTO "food_order"."preco"
+       VALUES(DEFAULT, $1, DEFAULT);`,
+      [preco.valor]
     );
 
     return res.rows[0];
@@ -17,14 +16,14 @@ async function createUser(userData) {
   }
 }
 
-async function getUserByEmail(email) {
+async function getPreco(idpreco) {
   const client = await pool.connect();
 
   try {
     const res = await client.query(
-      `SELECT * FROM "food_order"."usuario"
-       WHERE "usuario"."email" = $1`,
-      [email]
+      `SELECT * FROM "food_order"."preco"
+       WHERE "preco.idpreco" = $1;`,
+      [idpreco]
     );
 
     return res.rows[0];
@@ -34,6 +33,6 @@ async function getUserByEmail(email) {
 }
 
 export default {
-  createUser,
-  getUserByEmail,
+  createPreco,
+  getPreco,
 };
