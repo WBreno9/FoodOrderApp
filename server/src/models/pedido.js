@@ -7,13 +7,15 @@ async function createPedido(pedido, idusuario) {
     const res = await client.query(
       `INSERT INTO "food_order"."pedido"
        VALUES(DEFAULT, $1, $2, $3, $4, $5)
-       RETURNING *;`, [
-      pedido.quantidade,
-      pedido.endereco,
-      pedido.idadicional,
-      pedido.idprato,
-      idusuario,
-    ]);
+       RETURNING *;`,
+      [
+        pedido.quantidade,
+        pedido.endereco,
+        pedido.idadicional,
+        pedido.idprato,
+        idusuario,
+      ]
+    );
 
     return res.rows[0];
   } finally {

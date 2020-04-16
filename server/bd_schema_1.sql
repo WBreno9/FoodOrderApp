@@ -95,8 +95,14 @@ CREATE TABLE IF NOT EXISTS "food_order"."adicional" (
   "idadicional" SERIAL NOT NULL,
   "nome" VARCHAR(45) NOT NULL,
   "descricao" TEXT NOT NULL,
+  "prato_idprato" INT NOT NULL,
   "preco_idpreco" INT NOT NULL,
   PRIMARY KEY ("idadicional"),
+  CONSTRAINT "fk_adicional_prato1"
+    FOREIGN KEY ("prato_idprato")
+    REFERENCES "food_order"."prato" ("idprato")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT "fk_adicional_preco1"
     FOREIGN KEY ("preco_idpreco")
     REFERENCES "food_order"."preco" ("idpreco")
@@ -105,6 +111,8 @@ CREATE TABLE IF NOT EXISTS "food_order"."adicional" (
 
 CREATE INDEX IF NOT EXISTS "fk_adicional_preco1_idx" 
     ON "food_order"."adicional" ("preco_idpreco");
+CREATE INDEX IF NOT EXISTS "fk_adicional_prato1_idx" 
+    ON "food_order"."adicional" ("prato_idprato");
 
 -- -----------------------------------------------------
 -- Table "food_order"."pedido"
@@ -113,7 +121,7 @@ CREATE TABLE IF NOT EXISTS "food_order"."pedido" (
   "idpedido" SERIAL NOT NULL,
   "quantidate" INT NOT NULL,
   "endereco" VARCHAR(45) NOT NULL,
-  "adicional_idadicional" INT NOT NULL,
+  "adicional_idadicional" INT,
   "prato_idprato" INT NOT NULL,
   "usuario_idusuario" INT NOT NULL,
   PRIMARY KEY ("idpedido"),
