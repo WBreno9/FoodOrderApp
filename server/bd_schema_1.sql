@@ -148,3 +148,6 @@ CREATE INDEX IF NOT EXISTS "fk_pedido_prato1_idx"
 CREATE INDEX IF NOT EXISTS "fk_pedido_usuario1_idx" 
     ON "food_order"."pedido" 
     ("usuario_idusuario");
+
+INSERT INTO "food_order"."categoria"
+VALUES(0, 'Padrão', 'Categoria Padrão');

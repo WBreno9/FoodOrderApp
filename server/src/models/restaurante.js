@@ -33,7 +33,21 @@ async function getRestauranteByEmail(email) {
   }
 }
 
+async function getRestaurantes() {
+  const client = await pool.connect();
+
+  try {
+    const res = await client.query(
+      `SELECT * FROM "food_order"."restaurante";`)
+
+      return res.rows;
+  } finally {
+    client.release();
+  }
+}
+
 export default {
   createRestaurante,
   getRestauranteByEmail,
+  getRestaurantes
 };

@@ -14,8 +14,9 @@ import { getAuthToken } from "./auth.js";
 
 app.use(getAuthToken);
 
-import { userRouter, restauranteRouter } from "./routes";
+import { userRouter, restauranteRouter, searchRouter } from "./routes";
 
+app.use("/search", searchRouter);
 app.use("/user", userRouter);
 app.use("/restaurante", restauranteRouter);
 
