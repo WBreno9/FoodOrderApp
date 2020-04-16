@@ -1,6 +1,7 @@
 import express from "express";
 import { genAuthToken, requireAuth } from "../auth";
 import userModel from "../models/user";
+import pedidoModel from "../models/pedido";
 
 let userRouter = express.Router();
 
@@ -26,6 +27,11 @@ userRouter.post("/", async (req, res) => {
 
 userRouter.get("/me", requireAuth('user'), async (req, res) => {
   res.send(req.decoded_token);
+});
+
+userRouter.post("/pedido", requireAuth('user'), async (req, res) => {
+  const { idusuario } = req.decoded_token;
+  res.send(await pedidoModel.createPedido(req.body, idusuario));
 });
 
 export default userRouter;
