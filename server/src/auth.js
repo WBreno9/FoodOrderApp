@@ -18,12 +18,16 @@ function verifyAuthToken(token) {
   }
 }
 
-function requireAuth(req, res, next) {
-  if (!req.decoded_token) {
-    res.status(403).end();
-  } else {
-    next();
-  }
+function requireAuth(role) {
+  return (req, res, next) => {
+    if (!role) {
+      next();
+    } else if (!req.decoded_token || role !== req.decoded_token.role) {
+      res.status(403).end();
+    } else {
+      next();
+    }
+  };
 }
 
 function getAuthToken(req, _, next) {

@@ -11,6 +11,7 @@ userRouter.post("/login", async (req, res) => {
   const rs = await userModel.getUserByEmail(email);
 
   if (rs != undefined && rs.password === password) {
+    rs.role = 'user';
     res.send(genAuthToken(rs));
   } else {
     res.status(401).end();
@@ -23,7 +24,7 @@ userRouter.post("/", async (req, res) => {
   res.send(rs);
 });
 
-userRouter.get("/me", requireAuth, async (req, res) => {
+userRouter.get("/me", requireAuth(null), async (req, res) => {
   res.send(req.decoded_token);
 });
 

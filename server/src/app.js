@@ -14,9 +14,10 @@ import { getAuthToken } from "./auth.js";
 
 app.use(getAuthToken);
 
-import { userRouter } from "./routes";
+import { userRouter, restauranteRouter } from "./routes";
 
 app.use("/user", userRouter);
+app.use("/restaurante", restauranteRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening at port ${process.env.PORT}`);

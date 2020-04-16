@@ -6,8 +6,8 @@ async function createUser(userData) {
   try {
     const res = await client.query(
       `INSERT INTO "food_order"."usuario" 
-                    VALUES(DEFAULT, $1, $2, $3)
-                    RETURNING *;`,
+       VALUES(DEFAULT, $1, $2, $3)
+       RETURNING *;`,
       [userData.nome, userData.email, userData.password]
     );
 
@@ -23,7 +23,7 @@ async function getUserByEmail(email) {
   try {
     const res = await client.query(
       `SELECT * FROM "food_order"."usuario"
-                    WHERE "usuario"."email" = $1`,
+       WHERE "usuario"."email" = $1`,
       [email]
     );
 
