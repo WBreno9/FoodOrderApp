@@ -37,10 +37,27 @@ async function getRestaurantes() {
   const client = await pool.connect();
 
   try {
-    const res = await client.query(
-      `SELECT * FROM "food_order"."restaurante";`)
+    const res = await client.query(`SELECT * FROM "food_order"."restaurante";`);
 
-      return res.rows;
+    return res.rows;
+  } finally {
+    client.release();
+  }
+}
+
+async function updateRestaurante(restaurante) {
+  const client = await pool.connect();
+
+  try {
+    const res = await client.query(
+      `UPDATE "food_order"."restaurante"
+       SET "disponivel" = $2
+       WHERE "idrestaurante" = $1
+       RETURNING *;`,
+      [restaurante.idrestaurante, restaurante.disponivel]
+    );
+
+    return res.rows[0];
   } finally {
     client.release();
   }
@@ -49,5 +66,6 @@ async function getRestaurantes() {
 export default {
   createRestaurante,
   getRestauranteByEmail,
-  getRestaurantes
+  getRestaurantes,
+  updateRestaurante,
 };

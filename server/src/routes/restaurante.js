@@ -21,9 +21,17 @@ restauranteRouter.post("/login", async (req, res) => {
 });
 
 restauranteRouter.post("/", async (req, res) => {
-  const rs = await restauranteModel.createRestaurante(req.body);
+  const {
+    idrestaurante,
+    nome,
+    email,
+  } = await restauranteModel.createRestaurante(req.body);
 
-  res.send(rs);
+  res.send({
+    idrestaurante,
+    nome,
+    email,
+  });
 });
 
 restauranteRouter.get("/me", requireAuth("restaurante"), async (req, res) => {
@@ -48,6 +56,22 @@ restauranteRouter.post(
     const adicional = req.body;
 
     res.send(await adicionalModel.createAdicional(adicional));
+  }
+);
+
+restauranteRouter.post(
+  "/update",
+  requireAuth("restaurante"),
+  async (req, res) => {
+    let restaurante = {};
+
+    restaurante.disponivel = req.body.disponivel;
+    restaurante.idrestaurante = req.decoded_token.idrestaurante;
+
+    const { disponivel } = await restauranteModel.updateRestaurante(
+      restaurante
+    );
+    res.send({ disponivel });
   }
 );
 
