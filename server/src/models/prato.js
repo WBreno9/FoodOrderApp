@@ -37,7 +37,21 @@ async function getPratoByNomeRestaurante(nome, idrestaurante) {
   }
 }
 
-async function getPratosByRestaurante() {}
+async function getPratosByRestaurante(idrestaurante) {
+  const client = await pool.connect();
+
+  try {
+    const res = await client.query(
+      `SELECT * FROM "food_order"."prato"
+      WHERE "restaurante_idrestaurante" = $1;`,
+      [idrestaurante]
+    );
+
+    return res.rows;
+  } finally {
+    client.release();
+  }
+}
 
 export default {
   createPrato,
