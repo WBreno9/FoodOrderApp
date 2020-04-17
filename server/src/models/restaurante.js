@@ -57,7 +57,7 @@ async function updateRestaurante(restaurante) {
       [
         restaurante.idrestaurante,
         restaurante.disponivel,
-        restaurante.categoria_idcategoria,
+        restaurante.idcategoria,
       ]
     );
 

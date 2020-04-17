@@ -7,11 +7,11 @@ async function createAdicional(adicional) {
   try {
     const { idpreco } = await precoModel.createPreco(adicional.preco);
 
-    const res = await client.query(
+      const res = await client.query(
       `INSERT INTO "food_order"."adicional"
        VALUES(DEFAULT, $1, $2, $3, $4)
        RETURNING *;`,
-      [adicional.nome, adicional.descricao, idpreco, adicional.idprato]
+      [adicional.nome, adicional.descricao, adicional.idprato, idpreco]
     );
 
     return res.rows[0];
