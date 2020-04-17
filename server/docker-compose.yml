@@ -5,7 +5,7 @@ services:
         ports:
             - "${PORT}:${PORT}"
         volumes:
-            - .:/usr/src/app
+            - .:/usr/lib/app
         depends_on:
             - postgres_db
         environment:
