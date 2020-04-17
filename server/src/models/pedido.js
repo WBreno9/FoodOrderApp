@@ -29,11 +29,10 @@ async function getPedidoByUsuario(idusuario) {
   try {
     const res = await client.query(
       `SELECT * FROM "food_order"."pedido"
-       WHERE "usuario"."idusuario" = $1
-       RETURNING *;`,
+       WHERE "pedido"."usuario_idusuario" = $1;`,
       [idusuario]);
 
-    return res.rows[0];
+    return res.rows;
   } finally {
     client.release();
   }
