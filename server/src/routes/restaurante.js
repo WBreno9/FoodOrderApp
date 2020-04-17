@@ -35,7 +35,10 @@ restauranteRouter.post("/", async (req, res) => {
 });
 
 restauranteRouter.get("/me", requireAuth("restaurante"), async (req, res) => {
-  res.send(req.decoded_token);
+  let rs = req.decoded_token;
+  rs.password = undefined;
+
+  res.send(rs);
 });
 
 restauranteRouter.post(

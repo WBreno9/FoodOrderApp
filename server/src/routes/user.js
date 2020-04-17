@@ -20,13 +20,16 @@ userRouter.post("/login", async (req, res) => {
 });
 
 userRouter.post("/", async (req, res) => {
-  const rs = await userModel.createUser(req.body);
+  const { idusuario, email } = await userModel.createUser(req.body);
 
-  res.send(rs);
+  res.send({ idusuario, email });
 });
 
 userRouter.get("/me", requireAuth('user'), async (req, res) => {
-  res.send(req.decoded_token);
+  let rs = req.decoded_token;
+  rs.password = undefined;
+
+  res.send(rs);
 });
 
 userRouter.post("/pedido", requireAuth('user'), async (req, res) => {
